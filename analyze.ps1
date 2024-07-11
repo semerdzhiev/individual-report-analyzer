@@ -163,7 +163,9 @@ function Publish-ExcelReport {
 
   $worksheet.UsedRange.EntireColumn.AutoFit() | Out-Null
 
-  $workbook.SaveAs($XlsxOutput)
+  if($XlsxOutput) {
+    $workbook.SaveAs($XlsxOutput)
+  }
 }
 
 #-----------------------------------------------------------------------
@@ -195,9 +197,7 @@ if($CsvOutput) {
   $result | Export-Csv -Path $CsvOutput -UseCulture -NoTypeInformation -Encoding utf8BOM
 }
 
-if($XlsxOutput) {
-  Publish-ExcelReport -ExcelObject (Get-ExcelObject) -ReportData $result
-}
+Publish-ExcelReport -ExcelObject (Get-ExcelObject) -ReportData $result
 
 # Close-ExcelObject
 
